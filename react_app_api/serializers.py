@@ -19,7 +19,18 @@ class BlogsSerializer(serializers.ModelSerializer):
         return ProfileSerializer(obj2).data
 
 
-
+class ProfileSerializer(serializers.ModelSerializer):
+    user = serializers.SerializerMethodField(read_only=True)
+    email = serializers.SerializerMethodField(read_only=True)
+    
+    class Meta:
+        model = Profile
+        fields = ["id","user","email","image","about"]
+    
+    def get_user(self,obj):
+        return f"{obj.user.first_name}"
+    def get_email(self,obj):
+        return obj.user.email
 
 
 
